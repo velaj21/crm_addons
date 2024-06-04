@@ -16,6 +16,10 @@ class CallCenterCrmController(http.Controller):
             source_rec = http.request.env['source.source'].sudo().search([('ips_from_source_ids.name', '=', client_ip)],
                                                                          limit=1)
 
+            if not source_rec:
+                return Response(json.dumps({'error': 'You are not eligible to use our API!'}),
+                                content_type='application/json;charset=utf-8', status=401)
+
             # Find or create person record
             person_name = request_body['person']['name']
             person_rec = http.request.env['person.person'].sudo().search([('name', '=', person_name)], limit=1)
