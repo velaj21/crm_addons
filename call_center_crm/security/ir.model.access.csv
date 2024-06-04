@@ -1,2 +1,12 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_simple_wizard_user,Access to Simple Wizard,model_simple_wizard,base.group_user,1,1,1,1
+access_control_crm_users_person,CRM Users Person Access Control,model_person_person,group_crm_users,1,1,0,0
+access_control_crm_users_phone_number,CRM Users Phone Number Access Control,model_phone_number,group_crm_users,1,1,0,0
+access_control_crm_users_person_email,CRM Users Person Email Access Control,model_person_email,group_crm_users,1,1,0,0
+access_control_crm_users_person_email,CRM Users Source IP Access Control,model_source_ip,group_crm_users,1,1,0,0
+access_control_crm_users_person_email,CRM Users Source Access Control,model_source_source,group_crm_users,1,1,0,0
+
+access_control_crm_managers_person,CRM Managers Person Access Control,model_person_person,group_crm_managers,1,1,1,1
+access_control_crm_managers_phone_number,CRM Managers Phone Number Access Control,model_phone_number,group_crm_managers,1,1,1,1
+access_control_crm_managers_person_email,CRM Managers Person Email Access Control,model_person_email,group_crm_managers,1,1,1,1
+access_control_crm_managers_person_email,CRM Managers Source IP Access Control,model_source_ip,group_crm_managers,1,1,1,1
+access_control_crm_managers_person_email,CRM Managers Source Access Control,model_source_source,group_crm_managers,1,1,1,1

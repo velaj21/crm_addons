@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
+<odoo>
 
     <record id="group_crm_managers" model="res.groups">
         <field name="name">CRM Managers</field>
@@ -7,18 +7,18 @@
         <field name="comment">Group with full CRUD access to sales orders.</field>
     </record>
 
-    <record id="group_crm2_users" model="res.groups">
+    <record id="group_crm_users" model="res.groups">
         <field name="name">CRM Users</field>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         <field name="comment">Group with partial CRUD access to sales orders.</field>
     </record>
 
     <!-- Record Rule -->
-<!--    <record id="ir_rule_phone_numbers_view_own" model="ir.rule">-->
-<!--        <field name="name">View own phone numbers</field>-->
-<!--        <field name="model_id" ref="call_center_crm.model_phone_numbers"/>-->
-<!--        <field name="groups" eval="[(4, ref('call_center_crm.group_crm_user'))]"/>-->
-<!--        <field name="domain_force">[('responsible_person', '=', user.id)]</field>-->
-<!--    </record>-->
+    <record id="ir_rule_phone_numbers_view_own" model="ir.rule">
+        <field name="name">View own phone numbers</field>
+        <field name="model_id" ref="call_center_crm.model_person_person"/>
+        <field name="groups" eval="[(4, ref('call_center_crm.group_crm_users'))]"/>
+        <field name="domain_force">[('responsible_person', '=', user.id)]</field>
+    </record>
 
 </odoo>

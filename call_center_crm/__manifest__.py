@@ -12,9 +12,8 @@
         'base',
     ],
     'data': [
-        # 'security/ir.model.access.csv',
-        # "security/crm_endri_security.xml",
-
+        'security/crm_call_center_security.xml',
+        'security/ir.model.access.csv',
         'views/person_view.xml',
         'views/source_view.xml',
     ],
