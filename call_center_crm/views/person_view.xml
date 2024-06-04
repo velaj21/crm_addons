@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_person_form" model="ir.ui.view">
+        <field name="name">person.person.form</field>
+        <field name="model">person.person</field>
+        <field name="arch" type="xml">
+            <form duplicate="0" delete="0">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="responsible_person"/>
+                    </group>
+                    <notebook>
+                        <page name="phones" string="Phone Numbers">
+                            <field name="phone_number_id">
+                                <tree editable="bottom">
+                                    <field name="phone_number"/>
+                                    <field name="source"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="emails" string="Emails">
+                            <field name="person_email_id">
+                                <tree editable="bottom">
+                                    <field name="email"/>
+                                    <field name="source"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="notes" string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_person_tree" model="ir.ui.view">
+        <field name="name">person.person.tree</field>
+        <field name="model">person.person</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="responsible_person"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_person" model="ir.actions.act_window">
+        <field name="name">Persons</field>
+        <field name="res_model">person.person</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new Person.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_crm_root" name="CRM"/>
+
+    <menuitem id="menu_person" name="Persons" parent="menu_crm_root"
+              action="action_person"/>
+</odoo>
+
