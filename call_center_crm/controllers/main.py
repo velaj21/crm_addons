@@ -10,38 +10,45 @@ class CallCenterCrmController(http.Controller):
     def api_create_leads(self):
         try:
             request_body = json.loads(http.request.httprequest.data.decode('latin1'))
+            # Find the IP source
             client_ip = request.httprequest.remote_addr
 
             # Find source record based on client IP
-            source_rec = http.request.env['source.source'].sudo().search([('ips_from_source_ids.name', '=', client_ip)],
-                                                                         limit=1)
+            source_rec = http.request.env['source.source'].sudo().search_read(
+                domain=[('ips_from_source_ids.name', '=', client_ip)], fields=['id'], limit=1)
 
+            # If not exists return 401 (not allowed)
             if not source_rec:
                 return Response(json.dumps({'error': 'You are not eligible to use our API!'}),
                                 content_type='application/json;charset=utf-8', status=401)
 
+            source_id = source_rec[0]['id']
             # Find or create person record
             person_name = request_body['person']['name']
-            person_rec = http.request.env['person.person'].sudo().search([('name', '=', person_name)], limit=1)
+            person_rec = http.request.env['person.person'].sudo().search_read(domain=[('name', '=', person_name)],
+                                                                              fields=['id'],
+                                                                              limit=1)
 
             if not person_rec:
                 person_rec = http.request.env['person.person'].sudo().create(request_body['person'])
 
+            person_id = person_rec[0]['id']
+
             # Update phone number and email records with source and person IDs
             phone_number_data = request_body['phone_number_id']
-            phone_number_data.update({'source': source_rec.id, 'person_id': person_rec.id})
+            phone_number_data.update({'source': source_id, 'person_id': person_id})
             email_data = request_body['person_email_id']
-            email_data.update({'source': source_rec.id, 'person_id': person_rec.id})
+            email_data.update({'source': source_id, 'person_id': person_id})
 
             # Create phone number record if not exists
             phone_number = http.request.env['phone.number'].sudo().search(
-                [('phone_number', '=', phone_number_data['phone_number']), ('person_id', '=', person_rec.id)], limit=1)
+                [('phone_number', '=', phone_number_data['phone_number']), ('person_id', '=', person_id)], limit=1)
             if not phone_number:
                 http.request.env['phone.number'].sudo().create(phone_number_data)
 
             # Create email record if not exists
             email = http.request.env['person.email'].sudo().search(
-                [('email', '=', email_data['email']), ('person_id', '=', person_rec.id)], limit=1)
+                [('email', '=', email_data['email']), ('person_id', '=', person_id)], limit=1)
             if not email:
                 http.request.env['person.email'].sudo().create(email_data)
 
